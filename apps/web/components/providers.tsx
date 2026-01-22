@@ -1,7 +1,9 @@
 "use client"
 
-import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { CartProvider } from "@/context/cart-context"
+import { CartSheet } from "@/components/feature/cart/cart-sheet"
+import { Toaster } from "sonner"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +14,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
       enableColorScheme
     >
-      {children}
+      <CartProvider>
+        {children}
+        <CartSheet />
+        <Toaster />
+      </CartProvider>
     </NextThemesProvider>
   )
 }

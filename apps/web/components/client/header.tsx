@@ -5,9 +5,12 @@ import { usePathname } from "next/navigation";
 import { LogoCrocket } from "../logo";
 import { Button } from "@workspace/ui/components/button";
 import { User, ShoppingBag, Home, Info, Phone, Store } from "lucide-react";
+import { useCart } from "@/context/cart-context";
+import { Badge } from "@workspace/ui/components/badge";
 
 export const HeaderClient = () => {
   const pathname = usePathname();
+  const { cartCount, setIsOpen } = useCart();
 
   const DATA_HEADER = [
     {
@@ -67,19 +70,32 @@ export const HeaderClient = () => {
 
             {/* Actions */}
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="hidden md:flex" aria-label="Shopping Cart">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative hidden md:flex" 
+                aria-label="Shopping Cart"
+                onClick={() => setIsOpen(true)}
+              >
                 <ShoppingBag className="h-5 w-5" />
+                {cartCount > 0 && (
+                    <Badge variant="destructive" className="absolute -top-1 -right-1 h-2 w-2 flex items-center justify-center p-0 text-[10px]">
+                        {cartCount}
+                    </Badge>
+                )}
               </Button>
-              <Button variant="ghost" size="icon" aria-label="Account">
-                 <User className="h-5 w-5" />
-              </Button>
+              <Link href="/login">
+                <Button variant="ghost" size="icon" aria-label="Account">
+                   <User className="h-5 w-5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </header>
 
       {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t pb-safe"> 
         <nav className="flex items-center justify-around h-16">
            {DATA_HEADER.map((item) => (
               <Link
@@ -93,6 +109,21 @@ export const HeaderClient = () => {
                 <span>{item.name}</span>
               </Link>
             ))}
+             {/* Mobile Cart Button in Bottom Test */}
+             <button
+                className="flex flex-col items-center justify-center w-full h-full gap-1 text-xs font-medium transition-colors text-muted-foreground hover:text-primary"
+                onClick={() => setIsOpen(true)}
+             >
+                <div className="relative">
+                    <ShoppingBag className="h-5 w-5" />
+                    {cartCount > 0 && (
+                        <Badge variant="destructive" className="absolute -top-2 -right-2 h-2 w-2 flex items-center justify-center p-0 text-[10px]">
+                            {cartCount}
+                        </Badge>
+                    )}
+                </div>
+                <span>Cart</span>
+             </button>
         </nav>
       </div>
     </>
