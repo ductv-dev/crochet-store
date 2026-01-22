@@ -1,0 +1,100 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { LogoCrocket } from "../logo";
+import { Button } from "@workspace/ui/components/button";
+import { User, ShoppingBag, Home, Info, Phone, Store } from "lucide-react";
+
+export const HeaderClient = () => {
+  const pathname = usePathname();
+
+  const DATA_HEADER = [
+    {
+      id: 1,
+      name: "Home",
+      href: "/",
+      icon: Home,
+    },
+    {
+      id: 2,
+      name: "Shop",
+      href: "/shop",
+      icon: Store,
+    },
+    {
+      id: 3,
+      name: "About",
+      href: "/about",
+      icon: Info,
+    },
+    {
+      id: 4,
+      name: "Contact",
+      href: "/contact",
+      icon: Phone,
+    },
+  ];
+
+  return (
+    <>
+      {/* Top Header */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex h-16 items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2">
+              <div className="h-10 w-10">
+                <LogoCrocket color="#643A79" className="h-full w-full" />
+              </div>
+              <span className="text-xl font-bold hidden sm:inline-block">Crocket Store</span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6">
+              {DATA_HEADER.map((item) => (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    pathname === item.href ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Actions */}
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" className="hidden md:flex" aria-label="Shopping Cart">
+                <ShoppingBag className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" size="icon" aria-label="Account">
+                 <User className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t">
+        <nav className="flex items-center justify-around h-16">
+           {DATA_HEADER.map((item) => (
+              <Link
+                key={item.id}
+                href={item.href}
+                className={`flex flex-col items-center justify-center w-full h-full gap-1 text-xs font-medium transition-colors ${
+                    pathname === item.href ? "text-primary" : "text-muted-foreground hover:text-primary"
+                }`}
+              >
+                <item.icon className="h-5 w-5" />
+                <span>{item.name}</span>
+              </Link>
+            ))}
+        </nav>
+      </div>
+    </>
+  );
+};
