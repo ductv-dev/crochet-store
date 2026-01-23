@@ -15,25 +15,22 @@ export const FiltersSidebar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState(searchParams.get("search") || "");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     searchParams.get("categoryId")
   );
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000000]); // Max 2M VND
+
+  // Fix: Initialize price from URL
+  const initialMinPrice = searchParams.get("minPrice") ? Number(searchParams.get("minPrice")) : 0;
+  const initialMaxPrice = searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : 2000000;
+  const [priceRange, setPriceRange] = useState<[number, number]>([initialMinPrice, initialMaxPrice]);
+
   const [inStock, setInStock] = useState(searchParams.get("inStock") === "true");
 
-  const debouncedSearch = useDebounce(search, 500);
   const debouncedPrice = useDebounce(priceRange, 500);
 
-  // Sync state with URL
+  // Sync state with URL (Search removed from here)
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-
-    if (debouncedSearch) {
-      params.set("search", debouncedSearch);
-    } else {
-      params.delete("search");
-    }
 
     if (selectedCategory) {
       params.set("categoryId", selectedCategory);
@@ -43,11 +40,11 @@ export const FiltersSidebar = () => {
 
     const price = debouncedPrice || [0, 2000000];
     if (price[0] > 0 || price[1] < 2000000) {
-        params.set("minPrice", price[0].toString());
-        params.set("maxPrice", price[1].toString());
+      params.set("minPrice", price[0].toString());
+      params.set("maxPrice", price[1].toString());
     } else {
-        params.delete("minPrice");
-        params.delete("maxPrice");
+      params.delete("minPrice");
+      params.delete("maxPrice");
     }
 
     if (inStock) {
@@ -56,46 +53,55 @@ export const FiltersSidebar = () => {
       params.delete("inStock");
     }
 
-    // Reset page to 1 on filter change
-    params.set("page", "1");
+    // Only push if params actually changed to avoid redundant pushes (basic check)
+    // For now, simpler to just push, but wrapped in useEffect dependency check
+    // Note: We need to be careful not to overwrite 'search' param here if it exists in URL
+    // Since we initialize `params` from `searchParams`, 'search' is preserved.
 
-    router.push(`/shop?${params.toString()}`);
-  }, [debouncedSearch, selectedCategory, debouncedPrice, inStock]);
+    // Check if current params match constructed params to avoid loop relative to these specific filters
+    const currentParams = searchParams.toString();
+    const newParams = params.toString();
+
+    if (currentParams !== newParams) {
+      router.push(`/shop?${newParams}`);
+    }
+
+  }, [selectedCategory, debouncedPrice, inStock]);
 
   const clearFilters = () => {
-      setSearch("");
-      setSelectedCategory(null);
-      setPriceRange([0, 2000000]);
-      setInStock(false);
-      router.push("/shop");
+    setSelectedCategory(null);
+    setPriceRange([0, 2000000]);
+    setInStock(false);
+
+    // Preserve search if any
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("categoryId");
+    params.delete("minPrice");
+    params.delete("maxPrice");
+    params.delete("inStock");
+
+    router.push(`/shop?${params.toString()}`);
   };
 
   const handlePriceChange = (value: number[]) => {
-      setPriceRange(value as [number, number]);
+    setPriceRange(value as [number, number]);
   };
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="mb-4 text-lg font-semibold">Search</h3>
-        <Input
-          placeholder="Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-      <Separator />
+      {/* Search removed from here */}
+
       <div>
         <h3 className="mb-4 text-lg font-semibold">Categories</h3>
         <div className="space-y-2">
-           <div className="flex items-center space-x-2">
-                <Checkbox 
-                    id="cat-all" 
-                    checked={!selectedCategory} 
-                    onCheckedChange={() => setSelectedCategory(null)}
-                />
-                <Label htmlFor="cat-all" className="cursor-pointer">All Categories</Label>
-           </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="cat-all"
+              checked={!selectedCategory}
+              onCheckedChange={() => setSelectedCategory(null)}
+            />
+            <Label htmlFor="cat-all" className="cursor-pointer">All Categories</Label>
+          </div>
           {CATEGORIES.map((category) => (
             <div key={category.id} className="flex items-center space-x-2">
               <Checkbox

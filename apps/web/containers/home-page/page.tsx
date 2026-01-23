@@ -1,45 +1,11 @@
-import Link from "next/link";
-import { Button } from "@workspace/ui/components/button";
-import { ArrowRight } from "lucide-react";
 import { CategoryShowcase } from "@/components/feature/home/category-showcase";
 import { FeaturedProducts } from "@/components/feature/home/featured-products";
+import { HomeBannerSlider } from "@/components/feature/home/home-banner-slider";
 
 export const HomePage = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative w-full py-20 md:py-32 overflow-hidden bg-gradient-to-br from-primary/90 via-primary/70 to-background">
-        <div className="container max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-primary-foreground drop-shadow-md">
-                Handcrafted Crochet with Love
-              </h1>
-              <p className="mx-auto max-w-[700px] text-primary-foreground/90 md:text-xl font-medium drop-shadow-sm">
-                Discover unique, handmade pieces that bring warmth and style to your life. 
-                From cozy blankets to adorable amigurumi, find your perfect match.
-              </p>
-            </div>
-            <div className="space-x-4 pt-4">
-              <Link href="/shop">
-                <Button size="lg" className="bg-background text-primary hover:bg-background/90 group">
-                  Shop Now
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <Link href="/about">
-                <Button variant="outline" size="lg" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent">
-                  Our Story
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        
-        {/* Decorative Circles/Shapes for background interest */}
-        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3 w-[30rem] h-[30rem] bg-secondary/30 rounded-full blur-3xl" />
-      </section>
+      <HomeBannerSlider />
 
       <CategoryShowcase />
       

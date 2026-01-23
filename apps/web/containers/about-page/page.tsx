@@ -28,15 +28,15 @@ export const AboutPage = () => {
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden shadow-lg transform rotate-2 hover:rotate-0 transition-transform duration-500">
-               {/* Placeholder for Our Story Image */}
-               <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
-                   <Image 
-                    src="https://images.unsplash.com/photo-1615486511484-92e10534b73c?q=80&w=2670&auto=format&fit=crop" 
-                    alt="Crafting Process" 
-                    fill 
-                    className="object-cover"
-                   />
-               </div>
+              {/* Placeholder for Our Story Image */}
+              <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
+                <Image
+                  src="https://i.pinimg.com/736x/38/94/44/3894443f16b94630a1e972a5c2a5840a.jpg"
+                  alt="Crafting Process"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
             <div className="space-y-6">
               <h2 className="text-3xl font-bold">Our Story</h2>
@@ -60,12 +60,12 @@ export const AboutPage = () => {
       <section className="py-16 bg-muted/50">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
-             <h2 className="text-3xl font-bold mb-4">Why Choose Us?</h2>
-             <p className="text-muted-foreground">
-               We stand by our commitment to quality, community, and sustainability in everything we create.
-             </p>
+            <h2 className="text-3xl font-bold mb-4">Why Choose Us?</h2>
+            <p className="text-muted-foreground">
+              We stand by our commitment to quality, community, and sustainability in everything we create.
+            </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="bg-background border-none shadow-md">
               <CardContent className="pt-6 flex flex-col items-center text-center space-y-4">
@@ -79,7 +79,7 @@ export const AboutPage = () => {
             <Card className="bg-background border-none shadow-md">
               <CardContent className="pt-6 flex flex-col items-center text-center space-y-4">
                 <div className="p-3 bg-primary/10 rounded-full text-primary">
-                   <Leaf className="h-8 w-8" />
+                  <Leaf className="h-8 w-8" />
                 </div>
                 <h3 className="text-xl font-semibold">Sustainable Materials</h3>
                 <p className="text-muted-foreground">We carefully select eco-friendly yarns and materials to minimize our environmental footprint.</p>
@@ -88,7 +88,7 @@ export const AboutPage = () => {
             <Card className="bg-background border-none shadow-md">
               <CardContent className="pt-6 flex flex-col items-center text-center space-y-4">
                 <div className="p-3 bg-primary/10 rounded-full text-primary">
-                   <Users className="h-8 w-8" />
+                  <Users className="h-8 w-8" />
                 </div>
                 <h3 className="text-xl font-semibold">Community Driven</h3>
                 <p className="text-muted-foreground">We support local artisans and foster a community of creators who share our passion for the craft.</p>
@@ -105,10 +105,10 @@ export const AboutPage = () => {
           <p className="text-xl text-muted-foreground">Explore our collection today and bring home something special.</p>
           <div className="flex justify-center gap-4">
             <Link href="/shop">
-               <Button size="lg" className="px-8">Shop Collection</Button>
+              <Button size="lg" className="px-8">Shop Collection</Button>
             </Link>
             <Link href="/contact">
-               <Button size="lg" variant="outline" className="px-8">Contact Us</Button>
+              <Button size="lg" variant="outline" className="px-8">Contact Us</Button>
             </Link>
           </div>
         </div>
