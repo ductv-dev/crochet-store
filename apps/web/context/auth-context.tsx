@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsLogin(true);
         // Mock user data
         setUser({
-            name: email.split("@")[0],
+            name: email.split("@")[0] || "User",
             email: email,
             avatar: "https://github.com/shadcn.png",
             phone: "0901234567",
